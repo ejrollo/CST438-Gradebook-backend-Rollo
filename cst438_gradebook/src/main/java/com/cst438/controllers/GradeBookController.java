@@ -172,7 +172,7 @@ public class GradeBookController {
 	@Transactional
 	public void addAssignment (@PathVariable("name") String name, @PathVariable("date") String date, 
 			@PathVariable("id") int courseId) {
-		
+		int x = 0;
 		Course course = courseRepository.findByCourse_id(courseId);				
 		Assignment assignment = new Assignment();
 		assignment.setCourse(course);
