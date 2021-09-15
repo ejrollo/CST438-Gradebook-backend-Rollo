@@ -1,7 +1,9 @@
 package com.cst438.controllers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -165,5 +167,54 @@ public class GradeBookController {
 		
 		return assignment;
 	}
+	
+	@PutMapping("/add/{name}/{date}/{id}")
+	@Transactional
+	public void addAssignment (@PathVariable("name") String name, @PathVariable("date") String date, 
+			@PathVariable("id") int courseId) {
+		
+		Course course = courseRepository.findByCourse_id(courseId);				
+		Assignment assignment = new Assignment();
+		assignment.setCourse(course);
+		course.getAssignments().add(assignment);	
+		assignment.setName(name);
+		assignment.setNeedsGrading(1); 
+		// set dueDate to 1 week before now.
+		assignment.setDueDate(Date.valueOf(date));			
+		assignmentRepository.save(assignment);
+				
+	}
+	
+	@PutMapping("/changeName/{id}/{name}/{assignID}")
+	@Transactional
+	public void assignName (@PathVariable("id") int courseId, @PathVariable("name") String name,
+			@PathVariable("assignID") int assignId) {
+		
+		Course course = courseRepository.findByCourse_id(courseId);	
+		//iterate assignments for a course and change the name
+		List<Assignment> a = course.getAssignments();
+		a.forEach((temp) -> {
+			if (temp.getId() == assignId) {
+				temp.setName(name);				
+			}
+		});
+		//assignmentRepository.save(assignment);		
+	}
+	
+	@PutMapping("/delete/{id}/{assignID}")
+	@Transactional
+	public void deleteAssign (@PathVariable("id") int courseId, @PathVariable("assignID") int assignId) {
+		
+		Course course = courseRepository.findByCourse_id(courseId);	
+		List<Assignment> a = course.getAssignments();
+		a.forEach((temp) -> {
+			if (temp.getId() == assignId) {
+				if (temp.getNeedsGrading() == 1) {
+					assignmentRepository.delete(temp);
+				}				
+			}
+		});			
+	}
+	
 
 }
