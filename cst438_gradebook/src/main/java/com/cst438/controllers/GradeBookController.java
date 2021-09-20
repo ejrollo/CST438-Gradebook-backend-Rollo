@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -168,27 +169,32 @@ public class GradeBookController {
 		return assignment;
 	}
 	
-	@PutMapping("/add/{name}/{date}/{id}")
+	@PutMapping("/add")
 	@Transactional
-	public void addAssignment (@PathVariable("name") String name, @PathVariable("date") String date, 
-			@PathVariable("id") int courseId) {
+	public void addAssignment (@RequestBody AssignmentListDTO.AssignmentDTO assign) {
 		
-		Course course = courseRepository.findByCourse_id(courseId);				
 		Assignment assignment = new Assignment();
-		assignment.setCourse(course);
-		course.getAssignments().add(assignment);	
-		assignment.setName(name);
+		GradebookDTO gradebook = new GradebookDTO();
+		Course course = courseRepository.findByCourse_id(assign.courseId);				
+		assignment.setCourse(course);			
+		assignment.setName(assign.assignmentName);
 		assignment.setNeedsGrading(1); 
 		// set dueDate to 1 week before now.
-		assignment.setDueDate(Date.valueOf(date));			
-		assignmentRepository.save(assignment);
+		assignment.setDueDate(Date.valueOf(assign.dueDate));	
+		course.getAssignments().add(assignment);
+		int assignID = assignmentRepository.save(assignment).getId();
+		
+		gradebook.assignmentId = assignID;
+		gradebook.assignmentName = assignment.getName();
+		this.updateGradebook(gradebook, assignID);
+		
 				
 	}
 	
-	@PutMapping("/changeName/{id}/{name}/{assignID}")
+	@PutMapping("/change")
 	@Transactional
-	public void assignName (@PathVariable("id") int courseId, @PathVariable("name") String name,
-			@PathVariable("assignID") int assignId) {
+	public void changeName (@RequestParam int courseId, @RequestParam String name,
+			@RequestParam int assignId) {
 		
 		Course course = courseRepository.findByCourse_id(courseId);	
 		//iterate assignments for a course and change the name
@@ -201,9 +207,9 @@ public class GradeBookController {
 		//assignmentRepository.save(assignment);		
 	}
 	
-	@PutMapping("/delete/{id}/{assignID}")
+	@PutMapping("/delete")
 	@Transactional
-	public void deleteAssign (@PathVariable("id") int courseId, @PathVariable("assignID") int assignId) {
+	public void deleteAssign (@RequestParam int courseId, @RequestParam int assignId) {
 		
 		Course course = courseRepository.findByCourse_id(courseId);	
 		List<Assignment> a = course.getAssignments();
