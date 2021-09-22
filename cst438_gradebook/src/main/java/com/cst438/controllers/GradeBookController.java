@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.sql.Date;
+import java.lang.Integer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -171,23 +172,19 @@ public class GradeBookController {
 	
 	@PutMapping("/add")
 	@Transactional
-	public void addAssignment (@RequestBody AssignmentListDTO.AssignmentDTO assign) {
+	public void addAssignment (@RequestParam String nameAssign, @RequestParam String courseID,
+			@RequestParam String dueDate) {
 		
+		int courseid = Integer.parseInt(courseID);
 		Assignment assignment = new Assignment();
-		GradebookDTO gradebook = new GradebookDTO();
-		Course course = courseRepository.findByCourse_id(assign.courseId);				
+		Course course = courseRepository.findByCourse_id(courseid);				
 		assignment.setCourse(course);			
-		assignment.setName(assign.assignmentName);
+		assignment.setName(nameAssign);
 		assignment.setNeedsGrading(1); 
 		// set dueDate to 1 week before now.
-		assignment.setDueDate(Date.valueOf(assign.dueDate));	
+		assignment.setDueDate(Date.valueOf(dueDate));	
 		course.getAssignments().add(assignment);
-		int assignID = assignmentRepository.save(assignment).getId();
-		
-		gradebook.assignmentId = assignID;
-		gradebook.assignmentName = assignment.getName();
-		this.updateGradebook(gradebook, assignID);
-		
+		assignmentRepository.save(assignment);		
 				
 	}
 	

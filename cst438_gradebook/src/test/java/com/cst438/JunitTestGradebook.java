@@ -289,16 +289,12 @@ public class JunitTestGradebook {
 		
 		given(courseRepository.findByCourse_id(TEST_COURSE_ID)).willReturn(course);
 		
-		
 		// end of mock data
 		
-		// assignment to add
-		AssignmentListDTO.AssignmentDTO mockAssign = new AssignmentListDTO.AssignmentDTO(0, TEST_COURSE_ID, "Junit", "2021-12-25", "");
-						
+								
 		// send updates to server
-		response = mvc.perform(MockMvcRequestBuilders.put("/add").accept(MediaType.APPLICATION_JSON)
-			.content(asJsonString(mockAssign)).contentType(MediaType.APPLICATION_JSON))
-			.andReturn().getResponse();
+		response = mvc.perform(MockMvcRequestBuilders.put("/add").param("name", "JunitTest").
+				param("courseID", "40442").param("dueDate", "2022-1-1")).andReturn().getResponse();
 
 		// verify that return status = OK (value 200)
 		assertEquals(200, response.getStatus());
