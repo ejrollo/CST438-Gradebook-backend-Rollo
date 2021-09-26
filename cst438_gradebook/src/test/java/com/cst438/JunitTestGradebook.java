@@ -293,7 +293,7 @@ public class JunitTestGradebook {
 		
 								
 		// send updates to server
-		response = mvc.perform(MockMvcRequestBuilders.put("/add").param("name", "JunitTest").
+		response = mvc.perform(MockMvcRequestBuilders.put("/add").param("nameAssign", "JunitTest").
 				param("courseID", "40442").param("dueDate", "2022-1-1")).andReturn().getResponse();
 
 		// verify that return status = OK (value 200)
