@@ -23,7 +23,6 @@ public class RegistrationServiceREST extends RegistrationService {
 	public void sendFinalGrades(int course_id , CourseDTOG courseDTO) { 
 		
 		//TODO  complete this method in homework 4
-		System.out.println("Sending http message: "+course_id+", "+courseDTO);
 		ResponseEntity<CourseDTOG> response = restTemplate.postForEntity(
 				"http://localhost:8080/course/"+course_id,   	// URL
 				courseDTO,               			// data to send
