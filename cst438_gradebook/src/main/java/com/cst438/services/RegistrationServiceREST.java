@@ -24,13 +24,13 @@ public class RegistrationServiceREST extends RegistrationService {
 		
 		//TODO  complete this method in homework 4
 		ResponseEntity<CourseDTOG> response = restTemplate.postForEntity(
-				"http://localhost:8080/course/"+course_id,   	// URL
+				registration_url+"/course/"+course_id,   	// URL
 				courseDTO,               			// data to send
 				CourseDTOG.class);                 // return data type
 		
-		HttpStatus rc = response.getStatusCode();
-		System.out.println("HttpStatus: "+rc);
-		CourseDTOG returnObject = response.getBody();
-		System.out.println(returnObject);		
+		//HttpStatus rc = response.getStatusCode();
+		//System.out.println("HttpStatus: "+rc);
+		//CourseDTOG returnObject = response.getBody();
+		//System.out.println(returnObject);		
 	}
 }

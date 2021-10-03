@@ -38,11 +38,12 @@ public class EnrollmentController {
 		Enrollment enrollment = new Enrollment();
 		enrollment.setStudentEmail(enrollmentDTO.studentEmail);
 		enrollment.setStudentName(enrollmentDTO.studentName);
-		Course course = new Course();
-		course = courseRepository.findByCourse_id(enrollmentDTO.course_id);
-		enrollment.setCourse(course);
-		enrollmentRepository.save(enrollment);		
 		
+		Course c = courseRepository.findByCourse_id(enrollmentDTO.course_id);	
+		enrollment.setCourse(c);
+		enrollmentRepository.save(enrollment);	
+		c.getEnrollments().add(enrollment);
+		System.out.println("CourseID from DTO: " + enrollmentDTO.course_id);
 		return enrollmentDTO;		
 	}
 
