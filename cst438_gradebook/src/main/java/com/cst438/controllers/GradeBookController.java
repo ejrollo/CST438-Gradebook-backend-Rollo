@@ -175,8 +175,7 @@ public class GradeBookController {
 	@Transactional
 	public void addAssignment (@RequestParam String nameAssign, @RequestParam int courseID,
 			@RequestParam String dueDate) {
-		
-		//int courseid = Integer.parseInt(courseID);
+				
 		Assignment assignment = new Assignment();
 		Course course = courseRepository.findByCourse_id(courseID);				
 		assignment.setCourse(course);			
@@ -185,8 +184,7 @@ public class GradeBookController {
 		// set dueDate to 1 week before now.
 		assignment.setDueDate(Date.valueOf(dueDate));	
 		//course.getAssignments().add(assignment);
-		assignmentRepository.save(assignment);		
-				
+		assignmentRepository.save(assignment);						
 	}
 	
 	@PutMapping("/change")
