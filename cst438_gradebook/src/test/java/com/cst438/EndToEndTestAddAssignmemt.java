@@ -36,9 +36,9 @@ import com.cst438.domain.EnrollmentRepository;
  *      and after testing.
  */
 
-@SpringBootTest
-public class EndToEndTestSubmitGrades {
 
+public class EndToEndTestAddAssignmemt {
+	
 	public static final String CHROME_DRIVER_FILE_LOCATION = "/Users/ejrollo/WebDriver/chromedriver";
 
 	public static final String URL = "https://cst438-gradebook-front-rollo.herokuapp.com/";
@@ -57,9 +57,9 @@ public class EndToEndTestSubmitGrades {
 
 	@Autowired
 	AssignmentRepository assignmentRepository;
-
+	
 	@Test
-	public void addCourseTest() throws Exception {
+	public void addAssignmentTest() throws Exception {
 
 //		Database setup:  create course		
 		Course c = new Course();
@@ -146,4 +146,17 @@ public class EndToEndTestSubmitGrades {
 		}
 
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
