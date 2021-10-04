@@ -107,7 +107,7 @@ public class EndToEndTestAddAssignmemt {
 
 		try {			
 			// Locate and click Add Assignment button
-			driver.findElement(By.xpath("//button[span='Add Assignment']")).click();
+			driver.findElement(By.xpath("//button['Add Assignment']")).click();
 			Thread.sleep(SLEEP_DURATION);
 			
 			// enter data into input fields
@@ -119,11 +119,11 @@ public class EndToEndTestAddAssignmemt {
 				sendKeys("2022-01-01");
 			
 			// Locate submit button and click
-			driver.findElement(By.xpath("//button[span='Submit']")).click();
+			driver.findElement(By.xpath("//button['Submit']")).click();
 			Thread.sleep(SLEEP_DURATION);
 			
 			// Locate Assignments button and click
-			driver.findElement(By.xpath("//button[span='Assignments']")).click();
+			driver.findElement(By.xpath("//button['Assignments']")).click();
 			Thread.sleep(SLEEP_DURATION);
 
 			// verify that score show up
