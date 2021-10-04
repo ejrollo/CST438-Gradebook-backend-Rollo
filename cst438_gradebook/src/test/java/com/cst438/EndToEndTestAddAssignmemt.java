@@ -83,11 +83,11 @@ public class EndToEndTestAddAssignmemt {
 		e.setStudentEmail(TEST_USER_EMAIL);
 		e.setStudentName("Test");
 
-		courseRepository.save(c);
+		c = courseRepository.save(c);
 		a = assignmentRepository.save(a);
 		e = enrollmentRepository.save(e);
 
-		AssignmentGrade ag = null;
+		Assignment b = null;
 
 		// set the driver location and start driver
 		//@formatter:off
@@ -105,39 +105,43 @@ public class EndToEndTestAddAssignmemt {
 		driver.get(URL);
 		Thread.sleep(SLEEP_DURATION);
 
-		try {
-			// locate input element for assignment for 'Test Course'
-			WebElement we = driver.findElement(By.xpath("//div[@data-value='TEST ASSIGNMENT']//input"));
-		 	we.click();
-
-			// Locate and click Go button
-			driver.findElement(By.xpath("//a")).click();
+		try {			
+			// Locate and click Add Assignment button
+			driver.findElement(By.xpath("//button[span='Add Assignment']")).click();
 			Thread.sleep(SLEEP_DURATION);
-
-			// Locate row for student name "Test" and enter score of "99.9" into the grade field
-			we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='Test']"));
-			we.findElement(By.xpath("following-sibling::div[@data-field='grade']")).sendKeys("99.9");
-
+			
+			// enter data into input fields
+			driver.findElement(By.xpath("//input[@name='assign']")).
+				sendKeys("Assignment100");
+			driver.findElement(By.xpath("//input[@name='id']")).
+				sendKeys("99999");
+			driver.findElement(By.xpath("//input[@name='date']")).
+				sendKeys("2022-01-01");
+			
 			// Locate submit button and click
 			driver.findElement(By.xpath("//button[span='Submit']")).click();
 			Thread.sleep(SLEEP_DURATION);
+			
+			// Locate Assignments button and click
+			driver.findElement(By.xpath("//button[span='Assignments']")).click();
+			Thread.sleep(SLEEP_DURATION);
 
 			// verify that score show up
-			 we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='Test']"));
-			 we =  we.findElement(By.xpath("following-sibling::div[@data-field='grade']"));
-			assertEquals("99.9", we.getAttribute("data-value"));
+			//we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='Test']"));
+			//we =  we.findElement(By.xpath("following-sibling::div[@data-field='grade']"));
+			//assertEquals("99.9", we.getAttribute("data-value"));
 
-			// verify that assignment_grade has been added to database with score of 99.9
-			ag = assignnmentGradeRepository.findByAssignmentIdAndStudentEmail(a.getId(), TEST_USER_EMAIL);
-			assertEquals("99.9", ag.getScore());
+			// verify that assignment has been added to repo with name Assignment100
+			b = assignmentRepository.findById(a.getId());
+			assertEquals("Assignment100", b.getName());
 
 		} catch (Exception ex) {
 			throw ex;
 		} finally {
 
 			// clean up database.
-			ag = assignnmentGradeRepository.findByAssignmentIdAndStudentEmail(a.getId(), TEST_USER_EMAIL);
-			if (ag!=null) assignnmentGradeRepository.delete(ag);
+			//ag = assignnmentGradeRepository.findByAssignmentIdAndStudentEmail(a.getId(), TEST_USER_EMAIL);
+			//if (ag!=null) assignnmentGradeRepository.delete(ag);
 			enrollmentRepository.delete(e);
 			assignmentRepository.delete(a);
 			courseRepository.delete(c);
