@@ -83,7 +83,7 @@ public class EndToEndTestAddAssignmemt {
 		e.setStudentEmail(TEST_USER_EMAIL);
 		e.setStudentName("Test");
 
-		//courseRepository.save(c);
+		courseRepository.save(c);
 		a = assignmentRepository.save(a);
 		e = enrollmentRepository.save(e);
 
