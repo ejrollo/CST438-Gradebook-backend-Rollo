@@ -36,7 +36,7 @@ import com.cst438.domain.EnrollmentRepository;
  *      and after testing.
  */
 
-
+@SpringBootTest
 public class EndToEndTestAddAssignmemt {
 	
 	public static final String CHROME_DRIVER_FILE_LOCATION = "/Users/ejrollo/WebDriver/chromedriver";
@@ -83,7 +83,7 @@ public class EndToEndTestAddAssignmemt {
 		e.setStudentEmail(TEST_USER_EMAIL);
 		e.setStudentName("Test");
 
-		c = courseRepository.save(c);
+		//courseRepository.save(c);
 		a = assignmentRepository.save(a);
 		e = enrollmentRepository.save(e);
 
