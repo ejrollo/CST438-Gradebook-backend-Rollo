@@ -107,7 +107,7 @@ public class EndToEndTestAddAssignmemt {
 
 		try {			
 			// Locate and click Add Assignment button
-			driver.findElement(By.xpath("//button['Add Assignment']")).click();
+			driver.findElement(By.xpath("//button[@name='Add Assignment']")).click();
 			Thread.sleep(SLEEP_DURATION);
 			
 			// enter data into input fields
