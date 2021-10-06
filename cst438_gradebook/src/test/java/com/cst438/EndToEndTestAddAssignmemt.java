@@ -113,7 +113,7 @@ public class EndToEndTestAddAssignmemt {
 			// enter data into input fields
 			driver.findElement(By.xpath("//input[@name='assign']")).sendKeys("Assignment100");
 			Thread.sleep(SLEEP_DURATION);
-			driver.findElement(By.xpath("//input[@name='id']")).sendKeys("99999");
+			driver.findElement(By.xpath("//input[@name='id']")).sendKeys("123456");
 			Thread.sleep(SLEEP_DURATION);
 			driver.findElement(By.xpath("//input[@name='date']")).sendKeys("2022-01-01");
 			Thread.sleep(SLEEP_DURATION);
@@ -142,9 +142,9 @@ public class EndToEndTestAddAssignmemt {
 			// clean up database.
 			//ag = assignnmentGradeRepository.findByAssignmentIdAndStudentEmail(a.getId(), TEST_USER_EMAIL);
 			//if (ag!=null) assignnmentGradeRepository.delete(ag);
-			enrollmentRepository.delete(e);
-			assignmentRepository.delete(a);
-			courseRepository.delete(c);
+			//enrollmentRepository.delete(e);
+			//assignmentRepository.delete(a);
+			//courseRepository.delete(c);
 
 			driver.quit();
 		}
