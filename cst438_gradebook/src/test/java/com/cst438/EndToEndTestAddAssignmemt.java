@@ -87,8 +87,7 @@ public class EndToEndTestAddAssignmemt {
 		a = assignmentRepository.save(a);
 		e = enrollmentRepository.save(e);
 
-		Assignment b = null;
-
+		
 		// set the driver location and start driver
 		//@formatter:off
 		// browser	property name 				Java Driver Class
@@ -113,19 +112,18 @@ public class EndToEndTestAddAssignmemt {
 			// enter data into input fields
 			driver.findElement(By.xpath("//input[@name='assign']")).sendKeys("Assignment100");
 			Thread.sleep(SLEEP_DURATION);
-			driver.findElement(By.xpath("//input[@name='id']")).sendKeys("123456");
+			driver.findElement(By.xpath("//input[@name='id']")).sendKeys("99999");
 			Thread.sleep(SLEEP_DURATION);
-			driver.findElement(By.xpath("//input[@name='date']")).sendKeys("2022-01-01");
+			driver.findElement(By.xpath("//input[@name='date']")).sendKeys("2022-04-18");
 			Thread.sleep(SLEEP_DURATION);
 			
 			// Locate submit button and click
 			driver.findElement(By.xpath("//button['Submit']")).click();
-			Thread.sleep(SLEEP_DURATION);
+			Thread.sleep(5000);
 			
 			// Locate Assignments button and click
 			driver.findElement(By.xpath("//a")).click();
-			Thread.sleep(5000);
-
+			
 			// verify that score show up
 			//we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='Test']"));
 			//we =  we.findElement(By.xpath("following-sibling::div[@data-field='grade']"));
