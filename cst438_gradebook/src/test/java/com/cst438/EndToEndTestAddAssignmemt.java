@@ -131,8 +131,7 @@ public class EndToEndTestAddAssignmemt {
 			// clean up database.
 			enrollmentRepository.delete(e);
 			assignmentRepository.delete(a);
-			//courseRepository.delete(c);
-
+			
 			driver.quit();
 		}
 
