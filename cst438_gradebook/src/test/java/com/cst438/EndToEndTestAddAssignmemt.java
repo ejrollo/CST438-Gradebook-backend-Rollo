@@ -124,7 +124,7 @@ public class EndToEndTestAddAssignmemt {
 			
 			// Locate Assignments button and click
 			driver.findElement(By.xpath("//a")).click();
-			Thread.sleep(SLEEP_DURATION);
+			Thread.sleep(5000);
 
 			// verify that score show up
 			//we = driver.findElement(By.xpath("//div[@data-field='name' and @data-value='Test']"));
