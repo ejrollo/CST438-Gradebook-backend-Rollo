@@ -22,6 +22,9 @@ public class LoginController {
 	
 	@GetMapping("/user")
 	public String user (@AuthenticationPrincipal OAuth2User principal){
+		String name = principal.getAttribute("name");
+		String email = principal.getAttribute("email");
+		System.out.println("/user name="+name+" email="+email);
 		// used by front end to display user name.
 		return "redirect:" + redirect_url;
 	}
