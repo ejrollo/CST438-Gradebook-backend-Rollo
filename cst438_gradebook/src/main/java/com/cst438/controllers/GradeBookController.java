@@ -35,7 +35,7 @@ import com.cst438.services.RegistrationService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-//https://cst438-gradebook-front-rollo.herokuapp.com/
+//https://cst438-gradebook-front-rollo.herokuapp.com
 
 public class GradeBookController {
 	
@@ -55,7 +55,7 @@ public class GradeBookController {
 	@GetMapping("/gradebook")
 	public AssignmentListDTO getAssignmentsNeedGrading(@AuthenticationPrincipal OAuth2User principal) {
 		
-		//String email = "dwisneski@csumb.edu";  // user name (should be instructor's email) 
+		//String email = "dwisneski@csumb.edu";  
 		String student_email = principal.getAttribute("email");
 		String name = principal.getAttribute("name");
 		
@@ -70,7 +70,7 @@ public class GradeBookController {
 	@GetMapping("/gradebook/{id}")
 	public GradebookDTO getGradebook(@PathVariable("id") Integer assignmentId, @AuthenticationPrincipal OAuth2User principal ) {
 		
-		//String email = "dwisneski@csumb.edu";  // user name (should be instructor's email) 
+		//String email = "dwisneski@csumb.edu";  
 		String student_email = principal.getAttribute("email");
 		String name = principal.getAttribute("name");
 		
@@ -108,7 +108,7 @@ public class GradeBookController {
 		System.out.println("Gradebook - calcFinalGrades for course " + course_id);
 		
 		// check that this request is from the course instructor 
-		//String email = "dwisneski@csumb.edu";  // user name (should be instructor's email) 
+		//String email = "dwisneski@csumb.edu";  
 		String student_email = principal.getAttribute("email");
 		String name = principal.getAttribute("name");
 		
@@ -151,7 +151,7 @@ public class GradeBookController {
 	@Transactional
 	public void updateGradebook (@RequestBody GradebookDTO gradebook, @PathVariable("id") Integer assignmentId, @AuthenticationPrincipal OAuth2User principal ) {
 		
-		//String email = "dwisneski@csumb.edu";  // user name (should be instructor's email) 
+		//String email = "dwisneski@csumb.edu";  
 		String student_email = principal.getAttribute("email");
 		String name = principal.getAttribute("name");
 		
