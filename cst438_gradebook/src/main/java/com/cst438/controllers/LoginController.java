@@ -9,24 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-	/*
-	 * used by React Login front end component to test if user is 
-	 * logged in.  
-	 *   response 401 indicates user is not logged in
-	 *   a redirect response take user to Semester front end page.
-	 */
-	
+		
 	@Value("${frontend.post.login.url}")
 	String redirect_url;
 	
-	
+		
 	@GetMapping("/user")
 	public String user (@AuthenticationPrincipal OAuth2User principal){
 		String name = principal.getAttribute("name");
 		String email = principal.getAttribute("email");
 		System.out.println("/user name="+name+" email="+email);
 		// used by front end to display user name.
-		return "redirect:" + redirect_url;
+		return "redirect:" + redirect_url;				
 	}
 	
 	public String getUserRole (@AuthenticationPrincipal OAuth2User principal) {
