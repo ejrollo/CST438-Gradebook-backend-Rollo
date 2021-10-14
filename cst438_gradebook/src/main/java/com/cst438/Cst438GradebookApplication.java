@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -35,10 +38,16 @@ public class Cst438GradebookApplication  extends WebSecurityConfigurerAdapter {
 		SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler("/");
 		http.cors();
  		http.csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
- 		
  		// permit requests to /course without authentication. All other URLS are authenticated
- 		http.authorizeRequests().mvcMatchers(HttpMethod.PUT, "/assignment").permitAll().anyRequest()
- 			.authenticated().and().logout().and().oauth2Login();
+ 		http.authorizeRequests().mvcMatchers(HttpMethod.PUT, "/assignment").permitAll();
+ 		http.antMatcher("/**").authorizeRequests( a -> a.antMatchers("/", "/home", "/login", "/webjars/**").permitAll()
+ 		.anyRequest().authenticated())
+ 		.exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+		.logout(l -> l.logoutSuccessUrl("/").permitAll() )
+ 		.oauth2Login(o -> o.failureHandler((request, response, exception) -> {
+ 			System.out.println("error.message " + exception.getMessage());
+ 			handler.onAuthenticationFailure(request, response, exception);
+ 		}));
 	}
 	
 
@@ -53,6 +62,13 @@ public class Cst438GradebookApplication  extends WebSecurityConfigurerAdapter {
 		config.applyPermitDefaultValues();
 		source.registerCorsConfiguration("/**", config);
 		return source;
+	}
+	
+	@Bean
+	public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+	    DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+	    firewall.setAllowUrlEncodedSlash(true);
+	    return firewall;
 	}
 	
 	@Bean(name = "RegistrationService")
