@@ -229,5 +229,33 @@ public class GradeBookController {
 		});			
 	}
 	
-
-}
+	@GetMapping("/getStudentGrade/{id}")
+	public GradebookDTO getStudentGrade(@PathVariable("id") int assignmentId, @AuthenticationPrincipal OAuth2User principal ) {
+		 
+		String student_email = principal.getAttribute("email");
+		String name = principal.getAttribute("name");
+		Assignment assignment = assignmentRepository.findById(assignmentId);
+		
+		// get the enrollment for the course
+		//  for the student logged in, get the current grade for assignment, 
+		//   if the student does not have a current grade, create an empty grade
+		GradebookDTO gradebook = new GradebookDTO();
+		gradebook.assignmentId = assignmentId;
+		gradebook.assignmentName = assignment.getName();
+		
+		GradebookDTO.Grade grade = new GradebookDTO.Grade();
+		grade.name = name;
+		grade.email = student_email;
+		// does student have a grade for this assignment
+		AssignmentGrade ag = assignmentGradeRepository.findByAssignmentIdAndStudentEmail(assignmentId,  grade.email);
+		if (ag != null) {
+			grade.grade = ag.getScore();
+			grade.assignmentGradeId = ag.getId();
+		} 
+		gradebook.grades.add(grade);	
+		
+		return gradebook;
+	}
+	
+	
+}//end class
